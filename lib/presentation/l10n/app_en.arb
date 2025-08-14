@@ -1,0 +1,34 @@
+{
+  "loginOrRegister": "Login or Register",
+  "@loginOrRegister": {
+    "description": "Button text for login or register action"
+  },
+  "spotlightTitle": "Spotlight",
+  "@spotlightTitle": {
+    "description": "Main title of the welcome screen"
+  },
+  "spotlightDescription": "Discover the best articles that are specifically selected for you. The more tags you subscribe to, the better we know what you like.",
+  "@spotlightDescription": {
+    "description": "Description text explaining the app's functionality"
+  },
+  "personalizedTitle": "Personalized",
+  "@personalizedTitle": {
+    "description": "Title for personalized content page"
+  },
+  "personalizedDescription": "Get content recommendations that match your interests and reading habits. Our smart algorithm learns what you love.",
+  "@personalizedDescription": {
+    "description": "Description for personalized content features"
+  },
+  "discoverTitle": "Discover",
+  "@discoverTitle": {
+    "description": "Title for discovery page"
+  },
+  "discoverDescription": "Explore trending articles and discover new topics that expand your knowledge and spark your curiosity.",
+  "@discoverDescription": {
+    "description": "Description for discovery features"
+  },
+  "next": "Next",
+  "@next": {
+    "description": "Button text to proceed to the next step"
+  }
+}

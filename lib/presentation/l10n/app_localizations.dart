@@ -112,6 +112,30 @@ abstract class AppLocalizations {
   /// **'Discover the best articles that are specifically selected for you. The more tags you subscribe to, the better we know what you like.'**
   String get spotlightDescription;
 
+  /// Title for personalized content page
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized'**
+  String get personalizedTitle;
+
+  /// Description for personalized content features
+  ///
+  /// In en, this message translates to:
+  /// **'Get content recommendations that match your interests and reading habits. Our smart algorithm learns what you love.'**
+  String get personalizedDescription;
+
+  /// Title for discovery page
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get discoverTitle;
+
+  /// Description for discovery features
+  ///
+  /// In en, this message translates to:
+  /// **'Explore trending articles and discover new topics that expand your knowledge and spark your curiosity.'**
+  String get discoverDescription;
+
   /// Button text to proceed to the next step
   ///
   /// In en, this message translates to:

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../data/datasources/api_client.dart';
@@ -9,19 +10,19 @@ part 'app_providers.g.dart';
 
 // Core network providers
 @riverpod
-Dio dio(DioRef ref) {
+Dio dio(Ref ref) {
   return DioClient.createDio();
 }
 
 @riverpod
-ApiClient apiClient(ApiClientRef ref) {
+ApiClient apiClient(Ref ref) {
   final dio = ref.watch(dioProvider);
   return ApiClient(dio);
 }
 
 // Database provider
 @riverpod
-Future<Database> database(DatabaseRef ref) async {
+Future<Database> database(Ref ref) async {
   return await DatabaseHelper.database;
 }
 

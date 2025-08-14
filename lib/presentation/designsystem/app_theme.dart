@@ -29,6 +29,7 @@ class AppTheme {
   static const Color darkBackground = Color(0xFF000000);
   static const Color darkOnSurface = Color(0xFFFFFFFF);
   static const Color darkOnBackground = Color(0xFFFFFFFF);
+  static const Color darkBorder = Color(0xFF424242);
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -101,11 +102,11 @@ class AppTheme {
         fillColor: surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          borderSide: const BorderSide(color: buttonDisabled),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+          borderSide: const BorderSide(color: buttonDisabled),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -212,17 +213,17 @@ class AppTheme {
         fillColor: darkSurface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF424242)),
+          borderSide: const BorderSide(color: darkBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF424242)),
+          borderSide: const BorderSide(color: darkBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: primary, width: 2),
         ),
-        hintStyle: const TextStyle(color: Color(0xFF9E9E9E)),
+        hintStyle: const TextStyle(color: textHint),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       cardTheme: const CardThemeData(

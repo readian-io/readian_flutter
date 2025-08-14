@@ -1,20 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/entities/onboarding_state.dart';
+
+import '../../presentation/navigation/app_router.dart';
+import 'state/welcome_state.dart';
 
 part 'welcome_view_model.g.dart';
 
 @riverpod
 class WelcomeViewModel extends _$WelcomeViewModel {
+
   @override
-  OnboardingState build() {
-    return const OnboardingState();
+  WelcomeState build() {
+    return const WelcomeState();
   }
 
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
 
-  void setCurrentPage(int page) {
+  void onPageChanged(int page) {
     state = state.copyWith(currentPage: page);
   }
 
@@ -22,23 +27,29 @@ class WelcomeViewModel extends _$WelcomeViewModel {
     state = state.copyWith(error: error);
   }
 
-  void navigateToLogin() {
-    // TODO: Implement navigation to login
-    setLoading(true);
-    // Simulate navigation delay
-    Future.delayed(const Duration(milliseconds: 500), () {
+  void navigateToLogin(BuildContext context) {
+    try {
+      setLoading(true);
+      context.go(AppRouter.login);
+    } catch (e) {
+      setError('Failed to navigate to login: $e');
+    } finally {
       setLoading(false);
-      // Navigate to login screen
-    });
+    }
   }
 
-  void navigateToRegister() {
-    // TODO: Implement navigation to register
-    setLoading(true);
-    // Simulate navigation delay
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setLoading(false);
-      // Navigate to register screen
-    });
+  void handleNextAction(BuildContext context) {
+    if (state.currentPage < 2) {
+      state = state.copyWith(currentPage: state.currentPage + 1);
+    } else {
+      try {
+        setLoading(true);
+        context.go(AppRouter.register);
+      } catch (e) {
+        setError('Failed to navigate to register: $e');
+      } finally {
+        setLoading(false);
+      }
+    }
   }
 }

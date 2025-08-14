@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:readian_flutter/presentation/l10n/app_localizations.dart';
 import 'package:readian_flutter/presentation/navigation/app_router.dart';
 import 'presentation/designsystem/app_constants.dart';
 import 'presentation/designsystem/app_theme.dart';
 import 'presentation/providers/app_providers.dart';
-import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(
@@ -35,9 +35,7 @@ class ReadianApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'), // English
-      ],
+      supportedLocales: const [Locale('en')],
     );
   }
 }

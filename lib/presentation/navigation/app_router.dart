@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/welcome/ui/welcome_screen.dart';
@@ -24,21 +25,53 @@ class AppRouter {
         builder: (context, state) => const WelcomeScreen(),
       ),
       
-      // TODO: Add other routes
-      // GoRoute(
-      //   path: login,
-      //   name: 'login',
-      //   builder: (context, state) => const LoginScreen(),
-      // ),
+      // Auth routes (placeholder screens for now)
+      GoRoute(
+        path: login,
+        name: 'login',
+        builder: (context, state) => const _PlaceholderScreen(title: 'Login'),
+      ),
       
-      // GoRoute(
-      //   path: register,
-      //   name: 'register',
-      //   builder: (context, state) => const RegisterScreen(),
-      // ),
+      GoRoute(
+        path: register,
+        name: 'register',
+        builder: (context, state) => const _PlaceholderScreen(title: 'Register'),
+      ),
       
       // Main app routes will be added later
       // ShellRoute for bottom navigation...
     ],
   );
+}
+
+// Placeholder screen for development
+class _PlaceholderScreen extends StatelessWidget {
+  const _PlaceholderScreen({required this.title});
+  
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$title Screen',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 16),
+            const Text('This screen will be implemented later'),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () => context.go(AppRouter.welcome),
+              child: const Text('Back to Welcome'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

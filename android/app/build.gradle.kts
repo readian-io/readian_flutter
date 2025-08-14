@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "net.readian.readian_flutter"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // ndkVersion = flutter.ndkVersion  // Commented out due to NDK issue
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

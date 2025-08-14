@@ -48,7 +48,7 @@ enum ReadianButtonStyle {
       case ReadianButtonStyle.small:
         return TextStyle(
           color: theme.colorScheme.primary,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
         );
       case ReadianButtonStyle.outlined:
