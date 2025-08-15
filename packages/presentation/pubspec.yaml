@@ -1,0 +1,47 @@
+name: readian_presentation
+description: "Presentation layer for Readian app - design system, widgets, navigation"
+publish_to: 'none'
+resolution: workspace
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Local packages
+  readian_domain:
+    path: ../domain
+  readian_data:
+    path: ../data
+  readian_features:
+    path: ../features
+
+  # State Management
+  flutter_riverpod: ^2.6.0
+  riverpod_annotation: ^2.6.0
+
+  # Navigation
+  go_router: ^16.1.0
+
+  # UI
+  cupertino_icons: ^1.0.8
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+
+  # External dependencies needed for providers
+  dio: ^5.4.0
+  sqflite: ^2.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.6.0
+  flutter_lints: ^6.0.0

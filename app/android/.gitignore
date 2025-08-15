@@ -1,0 +1,26 @@
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+*.iml
+.navigation/
+.profiler/
+
+# Build outputs
+app/debug
+app/profile  
+app/release
+build/
+outputs/
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+**/*.keystore
+**/*.jks
+upload-keystore.jks
+key.jks

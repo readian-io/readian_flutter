@@ -1,0 +1,19 @@
+name: readian_domain
+description: "Domain layer for Readian app - contains entities, repositories, and use cases"
+publish_to: 'none'
+resolution: workspace
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  # Pure domain layer - no external dependencies except utilities
+  equatable: ^2.0.5
+  freezed_annotation: ^2.4.0
+
+dev_dependencies:
+  freezed: ^2.5.0
+  build_runner: ^2.4.7
+  flutter_lints: ^6.0.0

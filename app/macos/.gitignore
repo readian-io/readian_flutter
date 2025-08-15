@@ -1,0 +1,33 @@
+# Flutter-related
+**/Flutter/ephemeral/
+**/Pods/
+Podfile.lock
+
+# Xcode-related
+**/dgph
+**/xcuserdata/
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+DerivedData/
+.build/
+build/
+
+# macOS
+.DS_Store
+**/.*sync/
+Icon
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Exceptions to above rules.
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+!default.perspectivev3
