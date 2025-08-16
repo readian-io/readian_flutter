@@ -10,19 +10,14 @@ class Breakpoints {
 }
 
 /// Device type based on screen width
-enum DeviceType {
-  mobile,
-  tablet, 
-  desktop,
-  desktopLarge,
-}
+enum DeviceType { mobile, tablet, desktop, desktopLarge }
 
 /// Responsive layout helper
 class ResponsiveLayout {
   /// Get device type based on screen width
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    
+
     if (width >= Breakpoints.desktopLarge) {
       return DeviceType.desktopLarge;
     } else if (width >= Breakpoints.desktop) {
@@ -33,29 +28,30 @@ class ResponsiveLayout {
       return DeviceType.mobile;
     }
   }
-  
+
   /// Check if current screen is mobile
   static bool isMobile(BuildContext context) {
     return getDeviceType(context) == DeviceType.mobile;
   }
-  
+
   /// Check if current screen is tablet or larger
   static bool isTablet(BuildContext context) {
     final deviceType = getDeviceType(context);
     return deviceType == DeviceType.tablet || isDesktop(context);
   }
-  
+
   /// Check if current screen is desktop or larger
   static bool isDesktop(BuildContext context) {
     final deviceType = getDeviceType(context);
-    return deviceType == DeviceType.desktop || deviceType == DeviceType.desktopLarge;
+    return deviceType == DeviceType.desktop ||
+        deviceType == DeviceType.desktopLarge;
   }
-  
+
   /// Check if should use desktop layout (combines screen size + platform)
   static bool shouldUseDesktopLayout(BuildContext context) {
     return isDesktop(context) || (PlatformInfo.isDesktop && isTablet(context));
   }
-  
+
   /// Get responsive value based on device type
   static T responsive<T>(
     BuildContext context, {
@@ -65,7 +61,7 @@ class ResponsiveLayout {
     T? desktopLarge,
   }) {
     final deviceType = getDeviceType(context);
-    
+
     switch (deviceType) {
       case DeviceType.mobile:
         return mobile;
@@ -112,7 +108,7 @@ extension ResponsiveContext on BuildContext {
   bool get isMobile => ResponsiveLayout.isMobile(this);
   bool get isTablet => ResponsiveLayout.isTablet(this);
   bool get isDesktop => ResponsiveLayout.isDesktop(this);
-  
+
   T responsive<T>({
     required T mobile,
     T? tablet,

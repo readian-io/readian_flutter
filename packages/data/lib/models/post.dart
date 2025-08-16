@@ -3,11 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'post.freezed.dart';
 part 'post.g.dart';
 
-enum LikeStatus {
-  neutral,
-  like,
-  dislike,
-}
+enum LikeStatus { neutral, like, dislike }
 
 @freezed
 class Post with _$Post {

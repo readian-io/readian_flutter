@@ -6,9 +6,10 @@ import 'navigation_service.dart';
 
 /// Provider for NavigationService
 /// Requires BuildContext to be passed when reading
-final navigationServiceProvider = Provider.family<NavigationService, BuildContext>(
-  (ref, context) => GoRouterNavigationService(context),
-);
+final navigationServiceProvider =
+    Provider.family<NavigationService, BuildContext>(
+      (ref, context) => GoRouterNavigationService(context),
+    );
 
 /// Extension to easily access navigation service from WidgetRef
 extension NavigationExtension on WidgetRef {

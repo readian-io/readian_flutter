@@ -17,8 +17,4 @@ sealed class WelcomeProblem with _$WelcomeProblem {
   const factory WelcomeProblem.genericError() = GenericError;
 }
 
-enum Field {
-  identifier,
-  password,
-  unknown,
-}
+enum Field { identifier, password, unknown }

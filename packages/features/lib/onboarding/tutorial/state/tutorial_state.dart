@@ -12,6 +12,6 @@ class TutorialState with _$TutorialState {
 }
 
 @freezed
-sealed class NavigationSideEffect with _$TutorialNavigationSideEffect {
+sealed class NavigationSideEffect with _$NavigationSideEffect {
   const factory NavigationSideEffect.navigateToRegister() = NavigateToRegister;
 }

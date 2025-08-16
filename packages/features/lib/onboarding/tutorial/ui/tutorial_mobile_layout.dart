@@ -13,7 +13,8 @@ class TutorialMobileLayout extends ConsumerStatefulWidget {
   const TutorialMobileLayout({super.key});
 
   @override
-  ConsumerState<TutorialMobileLayout> createState() => _TutorialMobileLayoutState();
+  ConsumerState<TutorialMobileLayout> createState() =>
+      _TutorialMobileLayoutState();
 }
 
 class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
@@ -24,7 +25,9 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
   void initState() {
     super.initState();
     tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
-    _navigationSubscription = tutorialViewModel.navigationEvents.listen((event) {
+    _navigationSubscription = tutorialViewModel.navigationEvents.listen((
+      event,
+    ) {
       event.when(
         navigateToRegister: () => ref.navigation(context).navigateToRegister(),
       );
@@ -70,16 +73,14 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
               ],
             ),
           ),
-          
+
           // Loading overlay
           if (tutorialState.isLoading)
             Container(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: const Center(child: CircularProgressIndicator()),
             ),
-          
+
           // Error snackbar
           if (tutorialState.error != null)
             Positioned(
@@ -100,7 +101,6 @@ class _TopContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
-    final viewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,7 +108,9 @@ class _TopContent extends ConsumerWidget {
         SvgPicture.asset('assets/images/image_readian.svg', height: 22),
         ReadianButton(
           text: WelcomeStrings.loginOrRegister,
-          onPressed: tutorialState.isLoading ? null : () => ref.navigation(context).navigateToWelcome(),
+          onPressed: tutorialState.isLoading
+              ? null
+              : () => ref.navigation(context).navigateToWelcome(),
           style: ReadianButtonStyle.text,
         ),
       ],
@@ -118,7 +120,7 @@ class _TopContent extends ConsumerWidget {
 
 class _FeaturePageContent extends ConsumerWidget {
   const _FeaturePageContent({required this.pageController});
-  
+
   final PageController pageController;
 
   @override
@@ -231,7 +233,9 @@ class _BottomContent extends ConsumerWidget {
         _PaginationDots(currentPage: tutorialState.currentPage),
         ReadianButton(
           text: WelcomeStrings.next,
-          onPressed: tutorialState.isLoading ? null : () => tutorialViewModel.handleNextAction(),
+          onPressed: tutorialState.isLoading
+              ? null
+              : () => tutorialViewModel.handleNextAction(),
           style: ReadianButtonStyle.outlinedSmall,
         ),
       ],
@@ -241,13 +245,13 @@ class _BottomContent extends ConsumerWidget {
 
 class _PaginationDots extends StatelessWidget {
   const _PaginationDots({required this.currentPage});
-  
+
   final int currentPage;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Row(
       children: List.generate(3, (index) {
         return Container(
@@ -268,14 +272,14 @@ class _PaginationDots extends StatelessWidget {
 
 class _ErrorBanner extends ConsumerWidget {
   const _ErrorBanner({required this.error});
-  
+
   final String error;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
-    
+
     return Material(
       color: theme.colorScheme.error,
       borderRadius: BorderRadius.circular(8),
@@ -283,10 +287,7 @@ class _ErrorBanner extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            Icon(
-              Icons.error_outline,
-              color: theme.colorScheme.onError,
-            ),
+            Icon(Icons.error_outline, color: theme.colorScheme.onError),
             const SizedBox(width: 12),
             Expanded(
               child: Text(

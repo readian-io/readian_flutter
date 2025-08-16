@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// Abstract navigation service for handling app navigation
 /// This allows us to abstract away the specific routing implementation
 abstract class NavigationService {

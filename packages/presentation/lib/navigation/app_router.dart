@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readian_features/features.dart';
 
-
 class AppRouter {
   static const String tutorial = '/tutorial';
   static const String welcome = '/welcome';
@@ -23,20 +22,21 @@ class AppRouter {
         name: 'tutorial',
         builder: (context, state) => const TutorialScreen(),
       ),
-      
+
       // Auth routes (placeholder screens for now)
       GoRoute(
         path: welcome,
         name: 'welcome',
         builder: (context, state) => const WelcomeScreen(),
       ),
-      
+
       GoRoute(
         path: register,
         name: 'register',
-        builder: (context, state) => const _PlaceholderScreen(title: 'Register'),
+        builder: (context, state) =>
+            const _PlaceholderScreen(title: 'Register'),
       ),
-      
+
       // Main app routes will be added later
       // ShellRoute for bottom navigation...
     ],
@@ -46,7 +46,7 @@ class AppRouter {
 // Placeholder screen for development
 class _PlaceholderScreen extends StatelessWidget {
   const _PlaceholderScreen({required this.title});
-  
+
   final String title;
 
   @override

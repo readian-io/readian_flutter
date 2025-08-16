@@ -9,7 +9,6 @@ final tutorialViewModelProvider =
       return TutorialViewModel();
     });
 
-
 class TutorialViewModel extends StateNotifier<TutorialState> {
   final StreamController<NavigationSideEffect> _navigationController =
       StreamController<NavigationSideEffect>.broadcast();
@@ -42,7 +41,7 @@ class TutorialViewModel extends StateNotifier<TutorialState> {
       state = state.copyWith(currentPage: state.currentPage + 1);
     } else {
       _navigationController.add(
-          const NavigationSideEffect.navigateToRegister(),
+        const NavigationSideEffect.navigateToRegister(),
       );
     }
   }

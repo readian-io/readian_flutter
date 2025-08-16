@@ -11,7 +11,10 @@ class ButtonTokens {
   static const double mediumFontSize = 16.0;
   static const double borderWidth = 1.0;
   static const double thickBorderWidth = 2.0;
-  static const EdgeInsets smallPadding = EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+  static const EdgeInsets smallPadding = EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 12,
+  );
 }
 
 class ReadianButton extends StatelessWidget {
@@ -36,35 +39,40 @@ class ReadianButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final buttonStyle = style ?? ReadianButtonStyle.primary;
-    
+
     final effectiveOnPressed = isLoading ? null : onPressed;
     final child = _buildButtonChild(buttonStyle, theme);
     final button = _buildButton(buttonStyle, theme, effectiveOnPressed, child);
 
     // Apply width constraints
-    final effectiveWidth = width ?? 
-      (buttonStyle == ReadianButtonStyle.primary || buttonStyle == ReadianButtonStyle.outlined 
-        ? double.infinity 
-        : null);
-    
+    final effectiveWidth =
+        width ??
+        (buttonStyle == ReadianButtonStyle.primary ||
+                buttonStyle == ReadianButtonStyle.outlined
+            ? double.infinity
+            : null);
+
     if (effectiveWidth != null) {
-      return SizedBox(
-        width: effectiveWidth,
-        child: button,
-      );
+      return SizedBox(width: effectiveWidth, child: button);
     }
-    
+
     return button;
   }
 
-  Widget _buildButton(ReadianButtonStyle buttonStyle, ThemeData theme, VoidCallback? onPressed, Widget child) {
+  Widget _buildButton(
+    ReadianButtonStyle buttonStyle,
+    ThemeData theme,
+    VoidCallback? onPressed,
+    Widget child,
+  ) {
     return switch (buttonStyle) {
       ReadianButtonStyle.primary => ElevatedButton(
         onPressed: onPressed,
         style: buttonStyle.getButtonStyle(theme),
         child: child,
       ),
-      ReadianButtonStyle.outlined || ReadianButtonStyle.outlinedSmall => OutlinedButton(
+      ReadianButtonStyle.outlined ||
+      ReadianButtonStyle.outlinedSmall => OutlinedButton(
         onPressed: onPressed,
         style: buttonStyle.getButtonStyle(theme),
         child: child,
@@ -85,9 +93,9 @@ class ReadianButton extends StatelessWidget {
         child: CircularProgressIndicator(
           strokeWidth: 2,
           valueColor: AlwaysStoppedAnimation<Color>(
-            buttonStyle == ReadianButtonStyle.primary 
-              ? theme.colorScheme.onPrimary 
-              : theme.colorScheme.primary,
+            buttonStyle == ReadianButtonStyle.primary
+                ? theme.colorScheme.onPrimary
+                : theme.colorScheme.primary,
           ),
         ),
       );
@@ -159,7 +167,7 @@ enum ReadianButtonStyle {
         return OutlinedButton.styleFrom(
           foregroundColor: theme.colorScheme.primary,
           side: BorderSide(
-            color: theme.colorScheme.primary, 
+            color: theme.colorScheme.primary,
             width: ButtonTokens.borderWidth,
           ),
           shape: RoundedRectangleBorder(

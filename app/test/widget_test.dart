@@ -17,7 +17,7 @@ void main() {
     // Set a large screen size to avoid overflow
     tester.view.physicalSize = const Size(800, 1200);
     tester.view.devicePixelRatio = 1.0;
-    
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(const ProviderScope(child: ReadianApp()));
 
@@ -29,7 +29,7 @@ void main() {
     expect(find.text('Spotlight'), findsOneWidget);
     expect(find.text('Login or Register'), findsOneWidget);
     expect(find.text('Next'), findsOneWidget);
-    
+
     addTearDown(tester.view.reset);
   });
 }

@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:readian_presentation/presentation.dart';
+import 'package:readian_domain/domain.dart';
 
 class DioClient {
   static Dio createDio() {
     final dio = Dio();
-    
+
     // Configure base options
     dio.options = BaseOptions(
-      baseUrl: AppConstants.baseUrl,
-      connectTimeout: AppConstants.connectTimeout,
-      receiveTimeout: AppConstants.receiveTimeout,
+      baseUrl: AppConfig.baseUrl,
+      connectTimeout: AppConfig.connectTimeout,
+      receiveTimeout: AppConfig.receiveTimeout,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -17,12 +17,14 @@ class DioClient {
     );
 
     // Add interceptors
-    dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-      requestHeader: true,
-      responseHeader: true,
-    ));
+    dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        requestHeader: true,
+        responseHeader: true,
+      ),
+    );
 
     // Add auth interceptor
     dio.interceptors.add(AuthInterceptor());

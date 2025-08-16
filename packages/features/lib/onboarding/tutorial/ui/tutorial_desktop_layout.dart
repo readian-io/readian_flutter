@@ -13,7 +13,8 @@ class TutorialDesktopLayout extends ConsumerStatefulWidget {
   const TutorialDesktopLayout({super.key});
 
   @override
-  ConsumerState<TutorialDesktopLayout> createState() => _TutorialDesktopLayoutState();
+  ConsumerState<TutorialDesktopLayout> createState() =>
+      _TutorialDesktopLayoutState();
 }
 
 class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
@@ -24,7 +25,9 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
   void initState() {
     super.initState();
     tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
-    _navigationSubscription = tutorialViewModel.navigationEvents.listen((event) {
+    _navigationSubscription = tutorialViewModel.navigationEvents.listen((
+      event,
+    ) {
       event.when(
         navigateToRegister: () => ref.navigation(context).navigateToRegister(),
       );
@@ -49,26 +52,20 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
           Row(
             children: [
               // Left side - Feature content
-              Expanded(
-                flex: 3,
-                child: _LeftPanel(),
-              ),
-              
+              Expanded(flex: 3, child: _LeftPanel()),
+
               // Right side - Feature images and navigation
-              Expanded(
-                flex: 2,
-                child: _RightPanel(),
-              ),
+              Expanded(flex: 2, child: _RightPanel()),
             ],
           ),
-          
+
           // Loading overlay
           if (tutorialState.isLoading)
             Container(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
-          
+
           // Error banner
           if (tutorialState.error != null)
             Positioned(
@@ -122,9 +119,9 @@ class _LeftPanel extends ConsumerWidget {
               _LoginButton(),
             ],
           ),
-          
+
           const SizedBox(height: 80),
-          
+
           // Main content
           Expanded(
             child: Column(
@@ -140,7 +137,7 @@ class _LeftPanel extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Feature title
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
@@ -154,9 +151,9 @@ class _LeftPanel extends ConsumerWidget {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Feature description
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
@@ -172,9 +169,9 @@ class _LeftPanel extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                
+
                 const SizedBox(height: 48),
-                
+
                 // Bottom navigation
                 Row(
                   children: [
@@ -240,12 +237,11 @@ class _LoginButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
-    final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return ReadianButton(
       text: WelcomeStrings.loginOrRegister,
-      onPressed: tutorialState.isLoading 
-          ? null 
+      onPressed: tutorialState.isLoading
+          ? null
           : () => ref.navigation(context).navigateToWelcome(),
       style: ReadianButtonStyle.outlinedSmall,
     );
@@ -261,9 +257,11 @@ class _NextButton extends ConsumerWidget {
     final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return ReadianButton(
-      text: tutorialState.currentPage < 2 ? WelcomeStrings.next : WelcomeStrings.getStarted,
-      onPressed: tutorialState.isLoading 
-          ? null 
+      text: tutorialState.currentPage < 2
+          ? WelcomeStrings.next
+          : WelcomeStrings.getStarted,
+      onPressed: tutorialState.isLoading
+          ? null
           : () => tutorialViewModel.handleNextAction(),
       style: ReadianButtonStyle.primary,
     );
@@ -272,13 +270,13 @@ class _NextButton extends ConsumerWidget {
 
 class _PaginationDots extends StatelessWidget {
   const _PaginationDots({required this.currentPage});
-  
+
   final int currentPage;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Row(
       children: List.generate(3, (index) {
         return AnimatedContainer(
@@ -300,14 +298,14 @@ class _PaginationDots extends StatelessWidget {
 
 class _ErrorBanner extends ConsumerWidget {
   const _ErrorBanner({required this.error});
-  
+
   final String error;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
-    
+
     return Material(
       color: theme.colorScheme.error,
       borderRadius: BorderRadius.circular(12),
@@ -315,10 +313,7 @@ class _ErrorBanner extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(
           children: [
-            Icon(
-              Icons.error_outline,
-              color: theme.colorScheme.onError,
-            ),
+            Icon(Icons.error_outline, color: theme.colorScheme.onError),
             const SizedBox(width: 16),
             Expanded(
               child: Text(

@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:readian_presentation/presentation.dart';
+import 'package:readian_domain/domain.dart';
 
 class DatabaseHelper {
   static Database? _database;
@@ -18,11 +18,11 @@ class DatabaseHelper {
 
   static Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, AppConstants.databaseName);
+    final path = join(dbPath, AppConfig.databaseName);
 
     return await openDatabase(
       path,
-      version: AppConstants.databaseVersion,
+      version: AppConfig.databaseVersion,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -95,12 +95,22 @@ class DatabaseHelper {
     ''');
 
     // Create indexes
-    await db.execute('CREATE INDEX idx_posts_created_at ON $_postsTable (created_at)');
-    await db.execute('CREATE INDEX idx_subscriptions_user_id ON $_subscriptionsTable (user_id)');
-    await db.execute('CREATE INDEX idx_saved_posts_user_id ON $_savedPostsTable (user_id)');
+    await db.execute(
+      'CREATE INDEX idx_posts_created_at ON $_postsTable (created_at)',
+    );
+    await db.execute(
+      'CREATE INDEX idx_subscriptions_user_id ON $_subscriptionsTable (user_id)',
+    );
+    await db.execute(
+      'CREATE INDEX idx_saved_posts_user_id ON $_savedPostsTable (user_id)',
+    );
   }
 
-  static Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  static Future<void> _onUpgrade(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
     // Handle database upgrades here
     if (oldVersion < 2) {
       // Add migration logic for version 2
@@ -110,7 +120,11 @@ class DatabaseHelper {
   // Generic CRUD operations
   static Future<int> insert(String table, Map<String, dynamic> data) async {
     final db = await database;
-    return await db.insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
+    return await db.insert(
+      table,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   static Future<List<Map<String, dynamic>>> query(

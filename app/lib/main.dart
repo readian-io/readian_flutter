@@ -6,11 +6,7 @@ import 'package:readian_presentation/presentation.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: ReadianApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: ReadianApp()));
 }
 
 class ReadianApp extends ConsumerWidget {
