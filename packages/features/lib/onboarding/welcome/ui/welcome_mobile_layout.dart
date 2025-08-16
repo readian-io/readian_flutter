@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:readian_presentation/presentation.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:readian_presentation/designsystem/components/buttons.dart';
 
 import '../welcome_view_model.dart';
 
-/// Mobile-specific layout for welcome screen
-/// Features: Vertical PageView with stacked content
 class WelcomeMobileLayout extends ConsumerWidget {
   const WelcomeMobileLayout({super.key});
 
@@ -14,273 +12,242 @@ class WelcomeMobileLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final welcomeState = ref.watch(welcomeViewModelProvider);
     final theme = Theme.of(context);
-    final pageController = PageController(
-      initialPage: welcomeState.currentPage,
-    );
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: Colors.grey[50],
       body: Stack(
         children: [
           SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  child: _TopContent(),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
 
-                const SizedBox(height: 64),
+                  SvgPicture.asset(
+                    'assets/images/image_readian_logo_with_r.svg',
+                    height:36,
+                  ),
 
-                Expanded(
-                  child: _FeaturePageContent(pageController: pageController),
-                ),
+                  const SizedBox(height: 40),
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: _BottomContent(),
-                ),
-              ],
-            ),
-          ),
-          
-          // Loading overlay
-          if (welcomeState.isLoading)
-            Container(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-              child: const Center(
-                child: CircularProgressIndicator(),
+                  SvgPicture.asset(
+                    'assets/images/image_bookmark_wide.svg',
+                    fit: BoxFit.contain,
+                  ),
+
+                  const SizedBox(height: 80),
+
+                  // Buttons Section
+                  _buildButtonsSection(context),
+
+                  const SizedBox(height: 40),
+                ],
               ),
             ),
-          
-          // Error snackbar
-          if (welcomeState.error != null)
-            Positioned(
-              bottom: 100,
-              left: 16,
-              right: 16,
-              child: _ErrorBanner(error: welcomeState.error!),
+          ),
+
+          // Loading overlay
+          if (welcomeState.loading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(child: CircularProgressIndicator()),
             ),
         ],
       ),
     );
   }
-}
 
-class _TopContent extends ConsumerWidget {
-  const _TopContent();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildCharacterIllustration() {
+    return Stack(
       children: [
-        SvgPicture.asset('assets/images/image_readian.svg', height: 22),
-        ReadianButton(
-          text: WelcomeStrings.loginOrRegister,
-          onPressed: welcomeState.isLoading ? null : () => welcomeViewModel.navigateToLogin(context),
-          style: ReadianButtonStyle.small,
-        ),
-      ],
-    );
-  }
-}
-
-class _FeaturePageContent extends ConsumerWidget {
-  const _FeaturePageContent({required this.pageController});
-  
-  final PageController pageController;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
-
-    // Sync PageController with state changes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (pageController.hasClients &&
-          pageController.page?.round() != welcomeState.currentPage) {
-        pageController.animateToPage(
-          welcomeState.currentPage,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-
-    return PageView(
-      controller: pageController,
-      onPageChanged: welcomeViewModel.onPageChanged,
-      children: [
-        _FeaturePage(
-          imagePath: 'assets/images/image_lamp.svg',
-          title: WelcomeStrings.spotlightTitle,
-          description: WelcomeStrings.spotlightDescription,
-        ),
-        _FeaturePage(
-          imagePath: 'assets/images/image_glasses.svg',
-          title: WelcomeStrings.personalizedTitle,
-          description: WelcomeStrings.personalizedDescription,
-        ),
-        _FeaturePage(
-          imagePath: 'assets/images/image_looking_glass.svg',
-          title: WelcomeStrings.discoverTitle,
-          description: WelcomeStrings.discoverDescription,
-        ),
-      ],
-    );
-  }
-}
-
-class _FeaturePage extends StatelessWidget {
-  const _FeaturePage({
-    required this.imagePath,
-    required this.title,
-    required this.description,
-  });
-
-  final String imagePath;
-  final String title;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SvgPicture.asset(imagePath, width: 88, height: 138),
-          ),
-          const SizedBox(height: 64),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        Center(
+          child: Container(
+            width: 120,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+            ),
+            child: Stack(
               children: [
-                Text(
-                  title,
-                  style: theme.textTheme.displayMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
+                // Eyes
+                Positioned(
+                  top: 40,
+                  left: 30,
+                  child: Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  description,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface,
-                    height: 1.5,
-                    fontSize: 18,
+                Positioned(
+                  top: 40,
+                  right: 30,
+                  child: Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
                   ),
-                  textAlign: TextAlign.left,
+                ),
+                // Arms
+                Positioned(
+                  right: -20,
+                  top: 80,
+                  child: Container(
+                    width: 40,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    transform: Matrix4.rotationZ(0.3),
+                  ),
+                ),
+                Positioned(
+                  left: -20,
+                  top: 80,
+                  child: Container(
+                    width: 40,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    transform: Matrix4.rotationZ(-0.3),
+                  ),
+                ),
+                // Legs
+                Positioned(
+                  bottom: -20,
+                  left: 20,
+                  child: Container(
+                    width: 3,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: -20,
+                  right: 20,
+                  child: Container(
+                    width: 3,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+
+        // Floating document cards
+        ..._buildFloatingCards(),
+      ],
     );
   }
-}
 
-class _BottomContent extends ConsumerWidget {
-  const _BottomContent();
+  List<Widget> _buildFloatingCards() {
+    final cards = <Widget>[];
+    final positions = [
+      {'left': 20.0, 'top': 50.0, 'rotation': -0.2},
+      {'left': 80.0, 'top': 30.0, 'rotation': 0.1},
+      {'right': 30.0, 'top': 80.0, 'rotation': 0.3},
+      {'left': 40.0, 'bottom': 100.0, 'rotation': -0.1},
+      {'right': 60.0, 'bottom': 120.0, 'rotation': 0.2},
+      {'left': 10.0, 'top': 150.0, 'rotation': 0.15},
+      {'right': 10.0, 'top': 160.0, 'rotation': -0.25},
+    ];
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
+    for (var i = 0; i < positions.length; i++) {
+      final pos = positions[i];
+      cards.add(
+        Positioned(
+          left: pos['left'] as double?,
+          right: pos['right'] as double?,
+          top: pos['top'] as double?,
+          bottom: pos['bottom'] as double?,
+          child: Transform.rotate(
+            angle: pos['rotation'] as double,
+            child: Container(
+              width: 40,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(4),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 4),
+                  Container(width: 30, height: 2, color: Colors.grey[400]),
+                  const SizedBox(height: 2),
+                  Container(width: 25, height: 2, color: Colors.grey[400]),
+                  const SizedBox(height: 2),
+                  Container(width: 28, height: 2, color: Colors.grey[400]),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return cards;
+  }
+
+  Widget _buildButtonsSection(BuildContext context) {
+    return Column(
       children: [
-        _PaginationDots(currentPage: welcomeState.currentPage),
         ReadianButton(
-          text: WelcomeStrings.next,
-          onPressed: welcomeState.isLoading ? null : () => welcomeViewModel.handleNextAction(context),
+          text: 'Login',
+          onPressed: () {
+            // Handle login
+          },
+          style: ReadianButtonStyle.primary,
+        ),
+
+        const SizedBox(height: 8),
+
+        ReadianButton(
+          text: 'Register',
+          onPressed: () {
+            // Handle register
+          },
           style: ReadianButtonStyle.outlined,
         ),
-      ],
-    );
-  }
-}
 
-class _PaginationDots extends StatelessWidget {
-  const _PaginationDots({required this.currentPage});
-  
-  final int currentPage;
+        const SizedBox(height: 24),
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    
-    return Row(
-      children: List.generate(3, (index) {
-        return Container(
-          width: 8,
-          height: 8,
-          margin: const EdgeInsets.only(right: 8),
-          decoration: BoxDecoration(
-            color: index == currentPage
-                ? theme.colorScheme.primary
-                : theme.colorScheme.primary.withValues(alpha: 0.3),
-            shape: BoxShape.circle,
-          ),
-        );
-      }),
-    );
-  }
-}
-
-class _ErrorBanner extends ConsumerWidget {
-  const _ErrorBanner({required this.error});
-  
-  final String error;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
-    
-    return Material(
-      color: theme.colorScheme.error,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Icon(
-              Icons.error_outline,
-              color: theme.colorScheme.onError,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                error,
-                style: TextStyle(
-                  color: theme.colorScheme.onError,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () => welcomeViewModel.setError(null),
-              icon: Icon(
-                Icons.close,
-                color: theme.colorScheme.onError,
-                size: 20,
-              ),
-            ),
-          ],
+        ReadianButton(
+          onPressed: () {
+            // Handle skip
+          },
+          text: 'Skip',
+          style: ReadianButtonStyle.text,
         ),
-      ),
+      ],
     );
   }
 }

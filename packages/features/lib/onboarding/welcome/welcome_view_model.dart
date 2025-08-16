@@ -1,52 +1,46 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:readian_presentation/presentation.dart';
 
-import 'state/welcome_state.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:readian_features/onboarding/welcome/state/welcome_contract.dart';
 
 final welcomeViewModelProvider = StateNotifierProvider<WelcomeViewModel, WelcomeState>((ref) {
-  return WelcomeViewModel();
+  // Inject use case dependency here
+  // final welcomeUseCase = ref.watch(welcomeUseCaseProvider);
+  return WelcomeViewModel(/* welcomeUseCase */);
 });
 
 class WelcomeViewModel extends StateNotifier<WelcomeState> {
-  WelcomeViewModel() : super(const WelcomeState());
+  // final WelcomeUseCase _welcomeUseCase;
+  
+  WelcomeViewModel(/* this._welcomeUseCase */) : super(const WelcomeState());
 
-  void setLoading(bool isLoading) {
-    state = state.copyWith(isLoading: isLoading);
+  void setLoading(bool loading) {
+    state = state.copyWith(loading: loading);
   }
 
-  void onPageChanged(int page) {
-    state = state.copyWith(currentPage: page);
+  void setErrors(List<WelcomeProblem> errors) {
+    state = state.copyWith(errors: errors);
   }
 
-  void setError(String? error) {
-    state = state.copyWith(error: error);
+  void addError(WelcomeProblem error) {
+    state = state.copyWith(errors: [...state.errors, error]);
   }
 
-  void navigateToLogin(BuildContext context) {
+  void clearErrors() {
+    state = state.copyWith(errors: []);
+  }
+
+  Future<void> welcome(String identifier, String password) async {
+    setLoading(true);
+    clearErrors();
+
     try {
-      setLoading(true);
-      context.go(AppRouter.login);
+      // await _welcomeUseCase.execute(identifier, password);
+      // Handle success
     } catch (e) {
-      setError('Failed to navigate to login: $e');
+      addError(const WelcomeProblem.genericError());
     } finally {
       setLoading(false);
-    }
-  }
-
-  void handleNextAction(BuildContext context) {
-    if (state.currentPage < 2) {
-      state = state.copyWith(currentPage: state.currentPage + 1);
-    } else {
-      try {
-        setLoading(true);
-        context.go(AppRouter.register);
-      } catch (e) {
-        setError('Failed to navigate to register: $e');
-      } finally {
-        setLoading(false);
-      }
     }
   }
 }

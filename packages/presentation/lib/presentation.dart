@@ -5,7 +5,7 @@ import 'designsystem/responsive.dart';
 
 export 'designsystem/app_constants.dart';
 export 'designsystem/app_theme.dart';
-export 'designsystem/components/app_text_button.dart';
+export 'designsystem/components/buttons.dart';
 export 'designsystem/platform_info.dart';
 export 'designsystem/responsive.dart';
 export 'navigation/app_router.dart';

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:readian_presentation/presentation.dart';
 
-import '../welcome_view_model.dart';
+import '../tutorial_view_model.dart';
 
-/// Desktop-specific layout for welcome screen
+/// Desktop-specific layout for tutorial screen
 /// Features: Side-by-side layout with image on left, content on right
-class WelcomeDesktopLayout extends ConsumerWidget {
-  const WelcomeDesktopLayout({super.key});
+class TutorialDesktopLayout extends ConsumerWidget {
+  const TutorialDesktopLayout({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
+    final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -36,19 +37,19 @@ class WelcomeDesktopLayout extends ConsumerWidget {
           ),
           
           // Loading overlay
-          if (welcomeState.isLoading)
+          if (tutorialState.isLoading)
             Container(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
           
           // Error banner
-          if (welcomeState.error != null)
+          if (tutorialState.error != null)
             Positioned(
               bottom: 100,
               left: 24,
               right: 24,
-              child: _ErrorBanner(error: welcomeState.error!),
+              child: _ErrorBanner(error: tutorialState.error!),
             ),
         ],
       ),
@@ -61,7 +62,7 @@ class _LeftPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
+    final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
 
     // Define feature content
@@ -80,7 +81,7 @@ class _LeftPanel extends ConsumerWidget {
       },
     ];
 
-    final currentFeature = features[welcomeState.currentPage];
+    final currentFeature = features[tutorialState.currentPage];
 
     return Container(
       padding: const EdgeInsets.all(48),
@@ -119,7 +120,7 @@ class _LeftPanel extends ConsumerWidget {
                   duration: const Duration(milliseconds: 300),
                   child: Text(
                     currentFeature['title']!,
-                    key: ValueKey(welcomeState.currentPage),
+                    key: ValueKey(tutorialState.currentPage),
                     style: theme.textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
@@ -135,7 +136,7 @@ class _LeftPanel extends ConsumerWidget {
                   duration: const Duration(milliseconds: 300),
                   child: Text(
                     currentFeature['description']!,
-                    key: ValueKey('desc_${welcomeState.currentPage}'),
+                    key: ValueKey('desc_${tutorialState.currentPage}'),
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                       height: 1.6,
@@ -151,7 +152,7 @@ class _LeftPanel extends ConsumerWidget {
                 // Bottom navigation
                 Row(
                   children: [
-                    _PaginationDots(currentPage: welcomeState.currentPage),
+                    _PaginationDots(currentPage: tutorialState.currentPage),
                     const SizedBox(width: 24),
                     _NextButton(),
                   ],
@@ -170,7 +171,7 @@ class _RightPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
+    final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
 
     // Define image paths
@@ -195,8 +196,8 @@ class _RightPanel extends ConsumerWidget {
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
           child: SvgPicture.asset(
-            images[welcomeState.currentPage],
-            key: ValueKey(welcomeState.currentPage),
+            images[tutorialState.currentPage],
+            key: ValueKey(tutorialState.currentPage),
             width: 300,
             height: 400,
             fit: BoxFit.contain,
@@ -212,15 +213,15 @@ class _LoginButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
+    final tutorialState = ref.watch(tutorialViewModelProvider);
+    final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return ReadianButton(
       text: WelcomeStrings.loginOrRegister,
-      onPressed: welcomeState.isLoading 
+      onPressed: tutorialState.isLoading 
           ? null 
-          : () => welcomeViewModel.navigateToLogin(context),
-      style: ReadianButtonStyle.outlined,
+          : () => context.go(AppRouter.welcome),
+      style: ReadianButtonStyle.outlinedSmall,
     );
   }
 }
@@ -230,14 +231,14 @@ class _NextButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final welcomeState = ref.watch(welcomeViewModelProvider);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
+    final tutorialState = ref.watch(tutorialViewModelProvider);
+    final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return ReadianButton(
-      text: welcomeState.currentPage < 2 ? WelcomeStrings.next : WelcomeStrings.getStarted,
-      onPressed: welcomeState.isLoading 
+      text: tutorialState.currentPage < 2 ? WelcomeStrings.next : WelcomeStrings.getStarted,
+      onPressed: tutorialState.isLoading 
           ? null 
-          : () => welcomeViewModel.handleNextAction(context),
+          : () => tutorialViewModel.handleNextAction(context),
       style: ReadianButtonStyle.primary,
     );
   }
@@ -279,7 +280,7 @@ class _ErrorBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final welcomeViewModel = ref.read(welcomeViewModelProvider.notifier);
+    final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
     
     return Material(
       color: theme.colorScheme.error,
@@ -303,7 +304,7 @@ class _ErrorBanner extends ConsumerWidget {
               ),
             ),
             IconButton(
-              onPressed: () => welcomeViewModel.setError(null),
+              onPressed: () => tutorialViewModel.setError(null),
               icon: Icon(
                 Icons.close,
                 color: theme.colorScheme.onError,

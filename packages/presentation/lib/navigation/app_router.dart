@@ -4,8 +4,8 @@ import 'package:readian_features/features.dart';
 
 
 class AppRouter {
+  static const String tutorial = '/tutorial';
   static const String welcome = '/welcome';
-  static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
   static const String spotlight = '/spotlight';
@@ -15,20 +15,20 @@ class AppRouter {
   static const String postDetail = '/post/:id';
 
   static final GoRouter router = GoRouter(
-    initialLocation: welcome,
+    initialLocation: tutorial,
     routes: [
       // Onboarding routes
       GoRoute(
-        path: welcome,
-        name: 'welcome',
-        builder: (context, state) => const WelcomeScreen(),
+        path: tutorial,
+        name: 'tutorial',
+        builder: (context, state) => const TutorialScreen(),
       ),
       
       // Auth routes (placeholder screens for now)
       GoRoute(
-        path: login,
-        name: 'login',
-        builder: (context, state) => const _PlaceholderScreen(title: 'Login'),
+        path: welcome,
+        name: 'welcome',
+        builder: (context, state) => const WelcomeScreen(),
       ),
       
       GoRoute(
@@ -65,8 +65,8 @@ class _PlaceholderScreen extends StatelessWidget {
             const Text('This screen will be implemented later'),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () => context.go(AppRouter.welcome),
-              child: const Text('Back to Welcome'),
+              onPressed: () => context.go(AppRouter.tutorial),
+              child: const Text('Back to Tutorial'),
             ),
           ],
         ),

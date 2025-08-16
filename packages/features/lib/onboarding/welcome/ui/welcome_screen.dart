@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:readian_features/onboarding/welcome/ui/welcome_mobile_layout.dart';
 import 'package:readian_presentation/presentation.dart';
 
 import '../welcome_view_model.dart';
-import 'welcome_desktop_layout.dart';
-import 'welcome_mobile_layout.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -18,7 +17,8 @@ class WelcomeScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           if (Responsive.shouldUseDesktopLayout(context)) {
-            return const WelcomeDesktopLayout();
+            // TODO: Create WelcomeDesktopLayout
+            return const WelcomeMobileLayout();
           }
           return const WelcomeMobileLayout();
         },
@@ -26,4 +26,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
