@@ -19,6 +19,8 @@ dependencies:
     path: ../data
   readian_presentation:
     path: ../presentation
+  readian_flutter:
+    path: ../../app
 
   # State Management
   flutter_riverpod: ^2.6.0

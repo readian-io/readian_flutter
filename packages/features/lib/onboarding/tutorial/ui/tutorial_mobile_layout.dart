@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readian_presentation/presentation.dart';
+import 'package:readian_flutter/l10n/app_localizations.dart';
 
 import '../tutorial_view_model.dart';
 import '../state/tutorial_state.dart';
@@ -44,6 +45,7 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
   Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final pageController = PageController(
       initialPage: tutorialState.currentPage,
     );
@@ -57,18 +59,21 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  child: _TopContent(),
+                  child: _TopContent(l10n: l10n),
                 ),
 
                 const SizedBox(height: 64),
 
                 Expanded(
-                  child: _FeaturePageContent(pageController: pageController),
+                  child: _FeaturePageContent(
+                    pageController: pageController,
+                    l10n: l10n,
+                  ),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: _BottomContent(),
+                  child: _BottomContent(l10n: l10n),
                 ),
               ],
             ),
@@ -96,7 +101,9 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
 }
 
 class _TopContent extends ConsumerWidget {
-  const _TopContent();
+  const _TopContent({required this.l10n});
+
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -107,7 +114,7 @@ class _TopContent extends ConsumerWidget {
       children: [
         SvgPicture.asset('assets/images/image_readian.svg', height: 22),
         ReadianButton(
-          text: WelcomeStrings.loginOrRegister,
+          text: l10n.loginOrRegister,
           onPressed: tutorialState.isLoading
               ? null
               : () => ref.navigation(context).navigateToWelcome(),
@@ -119,8 +126,9 @@ class _TopContent extends ConsumerWidget {
 }
 
 class _FeaturePageContent extends ConsumerWidget {
-  const _FeaturePageContent({required this.pageController});
+  const _FeaturePageContent({required this.pageController, required this.l10n});
 
+  final AppLocalizations l10n;
   final PageController pageController;
 
   @override
@@ -146,18 +154,18 @@ class _FeaturePageContent extends ConsumerWidget {
       children: [
         _FeaturePage(
           imagePath: 'assets/images/image_lamp.svg',
-          title: WelcomeStrings.spotlightTitle,
-          description: WelcomeStrings.spotlightDescription,
+          title: l10n.spotlightTitle,
+          description: l10n.spotlightDescription,
         ),
         _FeaturePage(
           imagePath: 'assets/images/image_glasses.svg',
-          title: WelcomeStrings.personalizedTitle,
-          description: WelcomeStrings.personalizedDescription,
+          title: l10n.personalizedTitle,
+          description: l10n.personalizedDescription,
         ),
         _FeaturePage(
           imagePath: 'assets/images/image_looking_glass.svg',
-          title: WelcomeStrings.discoverTitle,
-          description: WelcomeStrings.discoverDescription,
+          title: l10n.discoverTitle,
+          description: l10n.discoverDescription,
         ),
       ],
     );
@@ -220,7 +228,9 @@ class _FeaturePage extends StatelessWidget {
 }
 
 class _BottomContent extends ConsumerWidget {
-  const _BottomContent();
+  const _BottomContent({required this.l10n});
+
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -232,7 +242,7 @@ class _BottomContent extends ConsumerWidget {
       children: [
         _PaginationDots(currentPage: tutorialState.currentPage),
         ReadianButton(
-          text: WelcomeStrings.next,
+          text: l10n.next,
           onPressed: tutorialState.isLoading
               ? null
               : () => tutorialViewModel.handleNextAction(),

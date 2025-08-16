@@ -30,5 +30,33 @@
   "next": "Next",
   "@next": {
     "description": "Button text to proceed to the next step"
+  },
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Button text to get started with the app"
+  },
+  "welcomeTo": "Welcome to",
+  "@welcomeTo": {
+    "description": "Welcome greeting text"
+  },
+  "appName": "Readian",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "appDescription": "Your personal reading companion for discovering, organizing, and enjoying your favorite content.",
+  "@appDescription": {
+    "description": "Description of the app's main functionality"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Button text for login action"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Button text for account creation"
+  },
+  "continueWithoutAccount": "Continue without account",
+  "@continueWithoutAccount": {
+    "description": "Button text to continue using the app without creating an account"
   }
 }

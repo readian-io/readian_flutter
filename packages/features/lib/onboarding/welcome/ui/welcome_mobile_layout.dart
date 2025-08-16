@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:readian_presentation/designsystem/components/buttons.dart';
+import 'package:readian_flutter/l10n/app_localizations.dart';
 
 import '../welcome_view_model.dart';
 
@@ -11,6 +12,7 @@ class WelcomeMobileLayout extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final welcomeState = ref.watch(welcomeViewModelProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -38,7 +40,7 @@ class WelcomeMobileLayout extends ConsumerWidget {
                   const SizedBox(height: 80),
 
                   // Buttons Section
-                  _buildButtonsSection(context),
+                  _buildButtonsSection(context, l10n),
 
                   const SizedBox(height: 40),
                 ],
@@ -57,11 +59,11 @@ class WelcomeMobileLayout extends ConsumerWidget {
     );
   }
 
-  Widget _buildButtonsSection(BuildContext context) {
+  Widget _buildButtonsSection(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         ReadianButton(
-          text: 'Login',
+          text: l10n.login,
           onPressed: () {
             // Handle login
           },
@@ -71,7 +73,7 @@ class WelcomeMobileLayout extends ConsumerWidget {
         const SizedBox(height: 8),
 
         ReadianButton(
-          text: 'Register',
+          text: l10n.createAccount,
           onPressed: () {
             // Handle register
           },
@@ -84,7 +86,7 @@ class WelcomeMobileLayout extends ConsumerWidget {
           onPressed: () {
             // Handle skip
           },
-          text: 'Skip',
+          text: l10n.continueWithoutAccount,
           style: ReadianButtonStyle.text,
         ),
       ],

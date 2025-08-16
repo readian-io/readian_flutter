@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readian_presentation/presentation.dart';
+import 'package:readian_flutter/l10n/app_localizations.dart';
 
 import '../tutorial_view_model.dart';
 import '../state/tutorial_state.dart';
@@ -44,6 +45,7 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
   Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -52,7 +54,7 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
           Row(
             children: [
               // Left side - Feature content
-              Expanded(flex: 3, child: _LeftPanel()),
+              Expanded(flex: 3, child: _LeftPanel(l10n: l10n)),
 
               // Right side - Feature images and navigation
               Expanded(flex: 2, child: _RightPanel()),
@@ -81,7 +83,9 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
 }
 
 class _LeftPanel extends ConsumerWidget {
-  const _LeftPanel();
+  const _LeftPanel({required this.l10n});
+
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,18 +94,12 @@ class _LeftPanel extends ConsumerWidget {
 
     // Define feature content
     final features = [
+      {'title': l10n.spotlightTitle, 'description': l10n.spotlightDescription},
       {
-        'title': WelcomeStrings.spotlightTitle,
-        'description': WelcomeStrings.spotlightDescription,
+        'title': l10n.personalizedTitle,
+        'description': l10n.personalizedDescription,
       },
-      {
-        'title': WelcomeStrings.personalizedTitle,
-        'description': WelcomeStrings.personalizedDescription,
-      },
-      {
-        'title': WelcomeStrings.discoverTitle,
-        'description': WelcomeStrings.discoverDescription,
-      },
+      {'title': l10n.discoverTitle, 'description': l10n.discoverDescription},
     ];
 
     final currentFeature = features[tutorialState.currentPage];
@@ -116,7 +114,7 @@ class _LeftPanel extends ConsumerWidget {
             children: [
               SvgPicture.asset('assets/images/image_readian.svg', height: 32),
               const Spacer(),
-              _LoginButton(),
+              _LoginButton(l10n: l10n),
             ],
           ),
 
@@ -177,7 +175,7 @@ class _LeftPanel extends ConsumerWidget {
                   children: [
                     _PaginationDots(currentPage: tutorialState.currentPage),
                     const SizedBox(width: 24),
-                    _NextButton(),
+                    _NextButton(l10n: l10n),
                   ],
                 ),
               ],
@@ -232,14 +230,16 @@ class _RightPanel extends ConsumerWidget {
 }
 
 class _LoginButton extends ConsumerWidget {
-  const _LoginButton();
+  const _LoginButton({required this.l10n});
+
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
 
     return ReadianButton(
-      text: WelcomeStrings.loginOrRegister,
+      text: l10n.loginOrRegister,
       onPressed: tutorialState.isLoading
           ? null
           : () => ref.navigation(context).navigateToWelcome(),
@@ -249,7 +249,9 @@ class _LoginButton extends ConsumerWidget {
 }
 
 class _NextButton extends ConsumerWidget {
-  const _NextButton();
+  const _NextButton({required this.l10n});
+
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -257,13 +259,11 @@ class _NextButton extends ConsumerWidget {
     final tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return ReadianButton(
-      text: tutorialState.currentPage < 2
-          ? WelcomeStrings.next
-          : WelcomeStrings.getStarted,
+      text: tutorialState.currentPage < 2 ? l10n.next : l10n.getStarted,
       onPressed: tutorialState.isLoading
           ? null
           : () => tutorialViewModel.handleNextAction(),
-      style: ReadianButtonStyle.primary,
+      style: ReadianButtonStyle.outlinedSmall,
     );
   }
 }
