@@ -1,18 +1,44 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:readian_presentation/presentation.dart';
 
 import '../tutorial_view_model.dart';
+import '../state/tutorial_state.dart';
 
 /// Mobile-specific layout for tutorial screen
 /// Features: Vertical PageView with stacked content
-class TutorialMobileLayout extends ConsumerWidget {
+class TutorialMobileLayout extends ConsumerStatefulWidget {
   const TutorialMobileLayout({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TutorialMobileLayout> createState() => _TutorialMobileLayoutState();
+}
+
+class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
+  late final TutorialViewModel tutorialViewModel;
+  StreamSubscription<NavigationSideEffect>? _navigationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
+    _navigationSubscription = tutorialViewModel.navigationEvents.listen((event) {
+      event.when(
+        navigateToRegister: () => ref.navigation(context).navigateToRegister(),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _navigationSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
     final pageController = PageController(
@@ -74,6 +100,7 @@ class _TopContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
+    final viewModel = ref.read(tutorialViewModelProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +108,7 @@ class _TopContent extends ConsumerWidget {
         SvgPicture.asset('assets/images/image_readian.svg', height: 22),
         ReadianButton(
           text: WelcomeStrings.loginOrRegister,
-          onPressed: tutorialState.isLoading ? null : () => context.go(AppRouter.welcome),
+          onPressed: tutorialState.isLoading ? null : () => ref.navigation(context).navigateToWelcome(),
           style: ReadianButtonStyle.text,
         ),
       ],
@@ -204,7 +231,7 @@ class _BottomContent extends ConsumerWidget {
         _PaginationDots(currentPage: tutorialState.currentPage),
         ReadianButton(
           text: WelcomeStrings.next,
-          onPressed: tutorialState.isLoading ? null : () => tutorialViewModel.handleNextAction(context),
+          onPressed: tutorialState.isLoading ? null : () => tutorialViewModel.handleNextAction(),
           style: ReadianButtonStyle.outlinedSmall,
         ),
       ],

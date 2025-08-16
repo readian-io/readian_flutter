@@ -9,6 +9,8 @@ export 'designsystem/components/buttons.dart';
 export 'designsystem/platform_info.dart';
 export 'designsystem/responsive.dart';
 export 'navigation/app_router.dart';
+export 'navigation/navigation_service.dart';
+export 'navigation/navigation_providers.dart';
 export 'providers/app_providers.dart';
 export 'strings/welcome_strings.dart';
 

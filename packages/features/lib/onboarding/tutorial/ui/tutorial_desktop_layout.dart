@@ -1,18 +1,44 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:readian_presentation/presentation.dart';
 
 import '../tutorial_view_model.dart';
+import '../state/tutorial_state.dart';
 
 /// Desktop-specific layout for tutorial screen
 /// Features: Side-by-side layout with image on left, content on right
-class TutorialDesktopLayout extends ConsumerWidget {
+class TutorialDesktopLayout extends ConsumerStatefulWidget {
   const TutorialDesktopLayout({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TutorialDesktopLayout> createState() => _TutorialDesktopLayoutState();
+}
+
+class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
+  late final TutorialViewModel tutorialViewModel;
+  StreamSubscription<NavigationSideEffect>? _navigationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    tutorialViewModel = ref.read(tutorialViewModelProvider.notifier);
+    _navigationSubscription = tutorialViewModel.navigationEvents.listen((event) {
+      event.when(
+        navigateToRegister: () => ref.navigation(context).navigateToRegister(),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _navigationSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
 
@@ -220,7 +246,7 @@ class _LoginButton extends ConsumerWidget {
       text: WelcomeStrings.loginOrRegister,
       onPressed: tutorialState.isLoading 
           ? null 
-          : () => context.go(AppRouter.welcome),
+          : () => ref.navigation(context).navigateToWelcome(),
       style: ReadianButtonStyle.outlinedSmall,
     );
   }
@@ -238,7 +264,7 @@ class _NextButton extends ConsumerWidget {
       text: tutorialState.currentPage < 2 ? WelcomeStrings.next : WelcomeStrings.getStarted,
       onPressed: tutorialState.isLoading 
           ? null 
-          : () => tutorialViewModel.handleNextAction(context),
+          : () => tutorialViewModel.handleNextAction(),
       style: ReadianButtonStyle.primary,
     );
   }

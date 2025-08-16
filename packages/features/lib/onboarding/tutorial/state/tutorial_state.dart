@@ -10,3 +10,8 @@ class TutorialState with _$TutorialState {
     String? error,
   }) = _TutorialState;
 }
+
+@freezed
+sealed class NavigationSideEffect with _$TutorialNavigationSideEffect {
+  const factory NavigationSideEffect.navigateToRegister() = NavigateToRegister;
+}

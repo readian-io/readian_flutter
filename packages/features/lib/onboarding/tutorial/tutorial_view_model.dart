@@ -1,16 +1,29 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:readian_presentation/presentation.dart';
 
 import 'state/tutorial_state.dart';
 
-final tutorialViewModelProvider = StateNotifierProvider<TutorialViewModel, TutorialState>((ref) {
-  return TutorialViewModel();
-});
+final tutorialViewModelProvider =
+    StateNotifierProvider<TutorialViewModel, TutorialState>((ref) {
+      return TutorialViewModel();
+    });
+
 
 class TutorialViewModel extends StateNotifier<TutorialState> {
+  final StreamController<NavigationSideEffect> _navigationController =
+      StreamController<NavigationSideEffect>.broadcast();
+
+  Stream<NavigationSideEffect> get navigationEvents =>
+      _navigationController.stream;
+
   TutorialViewModel() : super(const TutorialState());
+
+  @override
+  void dispose() {
+    _navigationController.close();
+    super.dispose();
+  }
 
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
@@ -24,19 +37,13 @@ class TutorialViewModel extends StateNotifier<TutorialState> {
     state = state.copyWith(error: error);
   }
 
-
-  void handleNextAction(BuildContext context) {
+  void handleNextAction() {
     if (state.currentPage < 2) {
       state = state.copyWith(currentPage: state.currentPage + 1);
     } else {
-      try {
-        setLoading(true);
-        context.go(AppRouter.register);
-      } catch (e) {
-        setError('Failed to navigate to register: $e');
-      } finally {
-        setLoading(false);
-      }
+      _navigationController.add(
+          const NavigationSideEffect.navigateToRegister(),
+      );
     }
   }
 }
