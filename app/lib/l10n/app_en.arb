@@ -58,5 +58,33 @@
   "continueWithoutAccount": "Continue without account",
   "@continueWithoutAccount": {
     "description": "Button text to continue using the app without creating an account"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Label for email input field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Label for password input field"
+  },
+  "byJoining": "By joining, you agree to our",
+  "@byJoining": {
+    "description": "Text before privacy policy and terms links"
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy Policy link text"
+  },
+  "and": "and",
+  "@and": {
+    "description": "Text between privacy policy and terms links"
+  },
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of Service link text"
+  },
+  "forgotPassword": "Forgot password",
+  "@forgotPassword": {
+    "description": "Button text for forgot password action"
   }
 }

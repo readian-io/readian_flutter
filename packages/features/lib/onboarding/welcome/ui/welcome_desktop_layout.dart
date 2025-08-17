@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:readian_presentation/designsystem/components/buttons.dart';
+import 'package:readian_presentation/navigation/navigation_providers.dart';
 import 'package:readian_flutter/l10n/app_localizations.dart';
 
 import '../welcome_view_model.dart';
@@ -15,7 +16,7 @@ class WelcomeDesktopLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final welcomeState = ref.watch(welcomeViewModelProvider);
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -130,7 +131,7 @@ class _RightPanel extends ConsumerWidget {
                 const SizedBox(height: 48),
 
                 // Action buttons
-                _buildActionButtons(l10n),
+                _buildActionButtons(context, ref, l10n),
               ],
             ),
           ),
@@ -151,22 +152,24 @@ class _RightPanel extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButtons(AppLocalizations l10n) {
+  Widget _buildActionButtons(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Primary action - Login
         ReadianButton(
           text: l10n.login,
           onPressed: () {
-            // Handle login
+            ref.navigation(context).navigateToLogin();
           },
           style: ReadianButtonStyle.primary,
         ),
 
         const SizedBox(height: 16),
 
-        // Secondary action - Register
         ReadianButton(
           text: l10n.createAccount,
           onPressed: () {
@@ -177,14 +180,13 @@ class _RightPanel extends ConsumerWidget {
 
         const SizedBox(height: 32),
 
-        // Tertiary action - Skip
         Center(
           child: ReadianButton(
             text: l10n.continueWithoutAccount,
             onPressed: () {
               // Handle skip
             },
-            style: ReadianButtonStyle.text,
+            style: ReadianButtonStyle.tertiary,
           ),
         ),
       ],

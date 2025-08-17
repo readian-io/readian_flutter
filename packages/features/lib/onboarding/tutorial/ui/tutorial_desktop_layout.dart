@@ -45,7 +45,7 @@ class _TutorialDesktopLayoutState extends ConsumerState<TutorialDesktopLayout> {
   Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,

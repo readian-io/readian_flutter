@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readian_features/features.dart';
+import 'package:readian_features/onboarding/login/ui/login_screen.dart';
 
 class AppRouter {
   static const String tutorial = '/tutorial';
   static const String welcome = '/welcome';
   static const String register = '/register';
+  static const String login = '/login';
   static const String home = '/home';
   static const String spotlight = '/spotlight';
   static const String subscriptions = '/subscriptions';
@@ -35,6 +37,12 @@ class AppRouter {
         name: 'register',
         builder: (context, state) =>
             const _PlaceholderScreen(title: 'Register'),
+      ),
+
+      GoRoute(
+        path: login,
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
       ),
 
       // Main app routes will be added later

@@ -45,7 +45,7 @@ class _TutorialMobileLayoutState extends ConsumerState<TutorialMobileLayout> {
   Widget build(BuildContext context) {
     final tutorialState = ref.watch(tutorialViewModelProvider);
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final pageController = PageController(
       initialPage: tutorialState.currentPage,
     );
@@ -118,7 +118,7 @@ class _TopContent extends ConsumerWidget {
           onPressed: tutorialState.isLoading
               ? null
               : () => ref.navigation(context).navigateToWelcome(),
-          style: ReadianButtonStyle.text,
+          style: ReadianButtonStyle.tertiary,
         ),
       ],
     );

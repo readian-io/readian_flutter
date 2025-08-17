@@ -5,6 +5,8 @@ abstract class NavigationService {
 
   void navigateToWelcome();
 
+  void navigateToLogin();
+
   void navigateToRegister();
 
   void navigateToHome();
@@ -22,6 +24,8 @@ abstract class NavigationService {
   void goBack();
 
   bool canGoBack();
+
+  void push(String route);
 
   void replace(String route);
 

@@ -4,3 +4,4 @@ library;
 // Note: Add specific exports as you create domain objects
 
 export 'config/app_config.dart';
+export 'utils/validation_utils.dart';

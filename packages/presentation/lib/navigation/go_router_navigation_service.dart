@@ -21,6 +21,11 @@ class GoRouterNavigationService implements NavigationService {
   }
 
   @override
+  void navigateToLogin() {
+    _context.push(AppRouter.login);
+  }
+
+  @override
   void navigateToRegister() {
     _context.go(AppRouter.register);
   }
@@ -65,6 +70,11 @@ class GoRouterNavigationService implements NavigationService {
   @override
   bool canGoBack() {
     return _context.canPop();
+  }
+
+  @override
+  void push(String route) {
+    _context.push(route);
   }
 
   @override

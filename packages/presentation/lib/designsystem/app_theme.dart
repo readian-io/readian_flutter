@@ -14,6 +14,7 @@ class AppTheme {
   static const Color onSurface = Color(0xFF1A1A1A); // Dark gray text
   static const Color onBackground = Color(0xFF1A1A1A); // Dark gray text
   static const Color onError = Color(0xFFFFFFFF); // White text on red
+  static const Color outline = Color(0xFFA9ACB2); // Light gray border
 
   // Text colors
   static const Color textPrimary = Color(0xFF1A1A1A); // Main text color
@@ -21,9 +22,6 @@ class AppTheme {
   static const Color textHint = Color(0xFF9E9E9E); // Hint/placeholder text
 
   // Button colors
-  static const Color buttonDisabled = Color(
-    0xFFE0E0E0,
-  ); // Disabled button background
   static const Color buttonText = Color(0xFFFFFFFF); // Button text color
 
   // Dark theme colors
@@ -46,6 +44,7 @@ class AppTheme {
         onSecondary: onSecondary,
         onSurface: onSurface,
         onError: onError,
+        outline: outline,
       ),
       scaffoldBackgroundColor: background,
       appBarTheme: const AppBarTheme(
@@ -92,18 +91,29 @@ class AppTheme {
         filled: true,
         fillColor: surface,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: buttonDisabled),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: outline, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: buttonDisabled),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: outline, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primary, width: 2),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: primary, width: 1),
         ),
-        hintStyle: const TextStyle(color: textHint),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: error, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: error, width: 2),
+        ),
+        labelStyle: const TextStyle(color: outline),
+        floatingLabelStyle: const TextStyle(color: primary),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        errorStyle: const TextStyle(color: error, height: 0),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
@@ -167,6 +177,7 @@ class AppTheme {
         onSecondary: onSecondary,
         onSurface: darkOnSurface,
         onError: onError,
+        outline: outline,
       ),
       scaffoldBackgroundColor: darkBackground,
       appBarTheme: const AppBarTheme(
@@ -213,18 +224,30 @@ class AppTheme {
         filled: true,
         fillColor: darkSurface,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(4),
           borderSide: const BorderSide(color: darkBorder),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(4),
           borderSide: const BorderSide(color: darkBorder),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(4),
           borderSide: const BorderSide(color: primary, width: 2),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: error, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: error, width: 2),
+        ),
         hintStyle: const TextStyle(color: textHint),
+        labelStyle: const TextStyle(color: darkBorder),
+        floatingLabelStyle: const TextStyle(color: primary),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        errorStyle: const TextStyle(color: error, height: 0),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,

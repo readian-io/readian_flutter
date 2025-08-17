@@ -25,7 +25,9 @@ class ReadianButton extends StatelessWidget {
     this.style,
     this.icon,
     this.isLoading = false,
+    this.enabled = true,
     this.width,
+    this.padding = const EdgeInsets.symmetric(horizontal: 0),
   });
 
   final String text;
@@ -33,14 +35,16 @@ class ReadianButton extends StatelessWidget {
   final ReadianButtonStyle? style;
   final Widget? icon;
   final bool isLoading;
+  final bool enabled;
   final double? width;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final buttonStyle = style ?? ReadianButtonStyle.primary;
 
-    final effectiveOnPressed = isLoading ? null : onPressed;
+    final effectiveOnPressed = (isLoading || !enabled) ? null : onPressed;
     final child = _buildButtonChild(buttonStyle, theme);
     final button = _buildButton(buttonStyle, theme, effectiveOnPressed, child);
 
@@ -52,11 +56,13 @@ class ReadianButton extends StatelessWidget {
             ? double.infinity
             : null);
 
+    Widget wrappedButton = button;
+
     if (effectiveWidth != null) {
-      return SizedBox(width: effectiveWidth, child: button);
+      wrappedButton = SizedBox(width: effectiveWidth, child: button);
     }
 
-    return button;
+    return Padding(padding: padding, child: wrappedButton);
   }
 
   Widget _buildButton(
@@ -77,7 +83,7 @@ class ReadianButton extends StatelessWidget {
         style: buttonStyle.getButtonStyle(theme),
         child: child,
       ),
-      ReadianButtonStyle.text => TextButton(
+      ReadianButtonStyle.tertiary => TextButton(
         onPressed: onPressed,
         style: buttonStyle.getButtonStyle(theme),
         child: child,
@@ -119,7 +125,7 @@ class ReadianButton extends StatelessWidget {
 enum ReadianButtonStyle {
   primary,
   outlined,
-  text,
+  tertiary,
   outlinedSmall;
 
   TextStyle getTextStyle(ThemeData theme) {
@@ -136,7 +142,7 @@ enum ReadianButtonStyle {
           fontSize: ButtonTokens.fontSize,
           fontWeight: FontWeight.normal,
         );
-      case ReadianButtonStyle.text:
+      case ReadianButtonStyle.tertiary:
         return TextStyle(
           color: theme.colorScheme.primary,
           fontSize: ButtonTokens.smallFontSize,
@@ -188,7 +194,7 @@ enum ReadianButtonStyle {
           padding: ButtonTokens.smallPadding,
           minimumSize: Size(0, ButtonTokens.smallHeight),
         );
-      case ReadianButtonStyle.text:
+      case ReadianButtonStyle.tertiary:
         return null; // Use default TextButton style
     }
   }
