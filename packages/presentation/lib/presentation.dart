@@ -13,6 +13,7 @@ export 'navigation/app_router.dart';
 export 'navigation/navigation_service.dart';
 export 'navigation/navigation_providers.dart';
 export 'providers/app_providers.dart';
+export 'providers/auth_providers.dart';
 
 // Aliases for easier access - using class instead of typedef
 class Responsive {

@@ -11,8 +11,6 @@ class User with _$User {
     required String username,
     String? fullName,
     String? avatarUrl,
-    required DateTime createdAt,
-    required DateTime updatedAt,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

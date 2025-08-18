@@ -11,6 +11,11 @@ class ValidationUtils {
     return _emailRegExp.hasMatch(email);
   }
 
+  static bool isValidUsername(String? username) {
+    if (username == null || username.isEmpty) return false;
+    return username.length > 2 && username.length < 20;
+  }
+
   static bool isValidPassword(String? password) {
     if (password == null || password.isEmpty) return false;
     return _passwordRegExp.hasMatch(password);
@@ -18,7 +23,7 @@ class ValidationUtils {
 }
 
 extension StringValidation on String? {
-  bool get isValidEmail => ValidationUtils.isValidEmail(this);
+  bool get isValidUsername => ValidationUtils.isValidUsername(this);
   bool get isValidPassword => ValidationUtils.isValidPassword(this);
   bool get isNotBlank => this != null && this!.trim().isNotEmpty;
 }

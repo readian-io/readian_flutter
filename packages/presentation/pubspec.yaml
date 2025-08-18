@@ -39,6 +39,7 @@ dependencies:
   # External dependencies needed for providers
   dio: ^5.4.0
   sqflite: ^2.3.0
+  flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   flutter_test:

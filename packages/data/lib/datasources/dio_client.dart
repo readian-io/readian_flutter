@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:readian_domain/domain.dart';
 
 class DioClient {
-  static Dio createDio() {
+  /// Creates a public Dio client without authentication
+  /// Use for login, registration, and other public endpoints
+  static Dio createPublicDio() {
     final dio = Dio();
 
-    // Configure base options
     dio.options = BaseOptions(
       baseUrl: AppConfig.baseUrl,
       connectTimeout: AppConfig.connectTimeout,
@@ -16,7 +17,6 @@ class DioClient {
       },
     );
 
-    // Add interceptors
     dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -26,7 +26,15 @@ class DioClient {
       ),
     );
 
-    // Add auth interceptor
+    return dio;
+  }
+
+  /// Creates an authenticated Dio client with token interceptor
+  /// Use for protected endpoints that require authentication
+  static Dio createAuthenticatedDio() {
+    final dio = createPublicDio();
+    
+    // Add auth interceptor only for authenticated client
     dio.interceptors.add(AuthInterceptor());
 
     return dio;

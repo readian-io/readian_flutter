@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readian_flutter/l10n/app_localizations.dart';
 import 'package:readian_presentation/presentation.dart';
+import 'package:readian_presentation/providers/auth_providers.dart';
 import '../state/login_form_provider.dart';
+import '../login_view_model.dart';
 
 class LoginMobileLayout extends ConsumerWidget {
   const LoginMobileLayout({super.key});
@@ -13,9 +15,46 @@ class LoginMobileLayout extends ConsumerWidget {
     final navigation = ref.navigation(context);
     final l10n = AppLocalizations.of(context);
 
-    final hasEmailError = ref.watch(hasEmailErrorProvider);
+    final hasUsernameError = ref.watch(hasUsernameErrorProvider);
     final hasPasswordError = ref.watch(hasPasswordErrorProvider);
     final isFormValid = ref.watch(isFormValidProvider);
+    
+    final loginState = ref.watch(loginViewModelProvider);
+    final email = ref.watch(usernameProvider);
+    final password = ref.watch(passwordProvider);
+
+    // Listen to authentication state changes
+    ref.listen(authStateProvider, (previous, next) {
+      next.whenData((authState) {
+        authState.whenOrNull(
+          authenticated: (accessToken, refreshToken) {
+            navigation.navigateToHome();
+          },
+        );
+      });
+    });
+
+    // Show error dialog if login fails
+    ref.listen(loginViewModelProvider, (previous, next) {
+      if (next.error != null) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Login Error'),
+            content: Text(next.error!),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  ref.read(loginViewModelProvider.notifier).clearError();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    });
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -36,12 +75,12 @@ class LoginMobileLayout extends ConsumerWidget {
             const SizedBox(height: 64),
 
             ReadianTextField(
-              labelText: l10n.email,
-              hasError: hasEmailError,
-              keyboardType: TextInputType.emailAddress,
+              labelText: 'Username',
+              hasError: hasUsernameError,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               onChanged: (value) =>
-                  ref.read(emailProvider.notifier).state = value,
+                  ref.read(usernameProvider.notifier).state = value,
             ),
 
             const SizedBox(height: 8),
@@ -67,15 +106,14 @@ class LoginMobileLayout extends ConsumerWidget {
 
             ReadianButton(
               text: l10n.login,
-              onPressed: isFormValid
+              onPressed: isFormValid && !loginState.isLoading
                   ? () {
-                      // TODO: Add actual login logic here
-                      // For now, navigate to home after successful login
-                      ref.navigation(context).navigateToHome();
+                      ref.read(loginViewModelProvider.notifier).login(email, password);
                     }
                   : null,
               style: ReadianButtonStyle.primary,
-              enabled: isFormValid,
+              enabled: isFormValid && !loginState.isLoading,
+              isLoading: loginState.isLoading,
               padding: const EdgeInsets.symmetric(horizontal: 24),
             ),
 

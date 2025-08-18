@@ -80,7 +80,7 @@ class LoginDesktopLayout extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final navigation = ref.navigation(context);
 
-    final hasEmailError = ref.watch(hasEmailErrorProvider);
+    final hasEmailError = ref.watch(hasUsernameErrorProvider);
     final hasPasswordError = ref.watch(hasPasswordErrorProvider);
     final isFormValid = ref.watch(isFormValidProvider);
 
@@ -139,7 +139,7 @@ class LoginDesktopLayout extends ConsumerWidget {
           hasError: hasEmailError,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          onChanged: (value) => ref.read(emailProvider.notifier).state = value,
+          onChanged: (value) => ref.read(usernameProvider.notifier).state = value,
           padding: EdgeInsets.zero,
         ),
 

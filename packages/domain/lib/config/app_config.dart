@@ -1,7 +1,7 @@
 class AppConfig {
   // API Configuration
   static const String baseUrl =
-      'https://api.readian.io'; // TODO: Replace with actual API URL
+      'https://qa-api.readian.net/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 

@@ -4,12 +4,21 @@ import 'package:sqflite/sqflite.dart';
 import 'package:readian_data/data.dart';
 
 // Core network providers
-final dioProvider = Provider<Dio>((ref) {
-  return DioClient.createDio();
+final publicDioProvider = Provider<Dio>((ref) {
+  return DioClient.createPublicDio();
 });
 
-final apiClientProvider = Provider<ApiClient>((ref) {
-  final dio = ref.watch(dioProvider);
+final authenticatedDioProvider = Provider<Dio>((ref) {
+  return DioClient.createAuthenticatedDio();
+});
+
+final publicApiClientProvider = Provider<ApiClient>((ref) {
+  final dio = ref.watch(publicDioProvider);
+  return ApiClient(dio);
+});
+
+final authenticatedApiClientProvider = Provider<ApiClient>((ref) {
+  final dio = ref.watch(authenticatedDioProvider);
   return ApiClient(dio);
 });
 
