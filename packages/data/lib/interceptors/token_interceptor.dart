@@ -15,7 +15,7 @@ class TokenInterceptor extends Interceptor {
   final AuthenticationStore _authenticationStore;
   final TokenValidator _tokenValidator;
 
-  final Completer<void>? _refreshCompleter = null;
+  Completer<void>? _refreshCompleter;
   int _lastRefreshTimeMs = 0;
 
   TokenInterceptor(
@@ -121,8 +121,8 @@ class TokenInterceptor extends Interceptor {
   Future<String?> _getFreshToken(String currentToken) async {
     try {
       // Simple mutex-like behavior using a completer
-      if (_refreshCompleter != null && !_refreshCompleter.isCompleted) {
-        await _refreshCompleter.future;
+      if (_refreshCompleter != null && !_refreshCompleter!.isCompleted) {
+        await _refreshCompleter!.future;
         final currentAuthState = _authenticationStore.currentState;
         return currentAuthState.whenOrNull(
           authenticated: (accessToken, refreshToken) => 
@@ -130,10 +130,11 @@ class TokenInterceptor extends Interceptor {
         );
       }
 
-      final completer = Completer<void>();
+      _refreshCompleter = Completer<void>();
       
-      return await _performTokenRefresh(completer);
+      return await _performTokenRefresh(_refreshCompleter!);
     } catch (e) {
+      _refreshCompleter?.complete();
       return null;
     }
   }

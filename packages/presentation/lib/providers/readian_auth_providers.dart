@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:readian_data/data.dart';
+import 'package:readian_data/store/readian_authentication_store.dart';
 import 'package:readian_domain/domain.dart';
+import 'package:readian_domain/store/secure_storage.dart';
 import 'app_providers.dart';
 
 // Secure Storage
@@ -26,17 +28,18 @@ final authApiClientProvider = Provider<OnboardingDataSource>((ref) {
   return OnboardingDataSource(dio);
 });
 
-// Readian Auth Repository  
-final readianAuthRepositoryProvider = Provider<AuthRepository>((ref) {
+// Readian Auth Data Repository  
+final readianAuthDataRepositoryProvider = Provider<AuthRepository>((ref) {
   final authApiClient = ref.watch(authApiClientProvider);
-  return ReadianAuthRepository(authApiClient, ref.watch(secureStorageProvider));
+  final secureStorage = ref.watch(secureStorageProvider);
+  return ReadianAuthDataRepository(authApiClient, secureStorage);
 });
 
-// Authentication Store
+// Clean Authentication Store (uses pure data layer)
 final authenticationStoreProvider = Provider<AuthenticationStore>((ref) {
   final secureStorage = ref.watch(secureStorageProvider);
-  final repository = ref.watch(readianAuthRepositoryProvider);
-  return ReadianAuthenticationStore(secureStorage, repository);
+  final dataRepository = ref.watch(readianAuthDataRepositoryProvider);
+  return ReadianAuthenticationStore(secureStorage, dataRepository);
 });
 
 // Token Fetch Util
@@ -75,14 +78,14 @@ final currentAuthStateProvider = Provider<AuthenticationState>((ref) {
 
 // Login Use Case with Result Types
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  final repository = ref.watch(readianAuthRepositoryProvider);
-  return LoginUseCase(repository);
+  final dataRepository = ref.watch(readianAuthDataRepositoryProvider);
+  return LoginUseCase(dataRepository);
 });
 
 // Register Use Case with Result Types  
 final registerUseCaseProvider = Provider<RegisterUseCase>((ref) {
-  final repository = ref.watch(readianAuthRepositoryProvider);
-  return RegisterUseCase(repository);
+  final dataRepository = ref.watch(readianAuthDataRepositoryProvider);
+  return RegisterUseCase(dataRepository);
 });
 
 // Auth State Notifier

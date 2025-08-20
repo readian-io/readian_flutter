@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readian_flutter/l10n/app_localizations.dart';
 import 'package:readian_presentation/presentation.dart';
-import 'package:readian_presentation/providers/auth_providers.dart';
 import '../state/login_form_provider.dart';
 import '../login_view_model.dart';
 

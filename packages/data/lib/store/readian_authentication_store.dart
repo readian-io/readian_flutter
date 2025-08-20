@@ -1,20 +1,18 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readian_domain/entities/authentication_state.dart';
 import 'package:readian_domain/entities/auth_token.dart';
-import 'package:readian_domain/entities/result/refresh_token_result.dart';
-import 'package:readian_domain/repositories/readian_auth_repository.dart';
+import 'package:readian_domain/repositories/auth_repository.dart';
 import 'package:readian_domain/store/authentication_store.dart';
-import '../storage/secure_storage.dart';
+import 'package:readian_domain/store/secure_storage.dart';
 
 class ReadianAuthenticationStore implements AuthenticationStore {
   final SecureStorage _persistence;
-  final AuthRepository _repository;
+  final AuthRepository _dataRepository;
   
   late final StreamController<AuthenticationState> _stateController;
   AuthenticationState _currentState = const AuthenticationState.unauthenticated();
 
-  ReadianAuthenticationStore(this._persistence, this._repository) {
+  ReadianAuthenticationStore(this._persistence, this._dataRepository) {
     _stateController = StreamController<AuthenticationState>.broadcast();
     _initializeState();
   }
@@ -44,27 +42,22 @@ class ReadianAuthenticationStore implements AuthenticationStore {
 
   @override
   Future<AuthenticationState?> refresh(String refreshToken, String accessToken) async {
-    final response = await _repository.refreshToken(refreshToken, accessToken);
+    final dataResult = await _dataRepository.refreshToken(refreshToken, accessToken);
     
-    return response.when(
-      error: () {
-        _updateState(const AuthenticationState.unauthenticated());
-        return const AuthenticationState.unauthenticated();
-      },
-      success: (token) async {
-        await persistToken(token);
+    return dataResult.when(
+      success: (authResult) async {
+        await persistToken(authResult);
         final newState = AuthenticationState.authenticated(
-          accessToken: token.accessToken,
-          refreshToken: token.refreshToken,
+          accessToken: authResult.accessToken,
+          refreshToken: authResult.refreshToken,
         );
         return newState;
       },
-      incomplete: () {
-        // Don't change state for incomplete refresh (network issues)
-        return null;
-      },
-      invalidRefreshToken: () async {
-        await clear();
+      failure: (domainError) async {
+        if (domainError.name.contains('Invalid') || domainError.name.contains('invalid')) {
+          await clear();
+        }
+        
         return const AuthenticationState.unauthenticated();
       },
     );

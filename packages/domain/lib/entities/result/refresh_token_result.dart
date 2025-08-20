@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../auth_token.dart';
+import '../../errors/auth_domain_error.dart';
 
 part 'refresh_token_result.freezed.dart';
 
@@ -9,9 +10,5 @@ sealed class RefreshTokenResult with _$RefreshTokenResult {
     required AuthToken token,
   }) = RefreshTokenSuccess;
 
-  const factory RefreshTokenResult.invalidRefreshToken() = RefreshTokenInvalid;
-
-  const factory RefreshTokenResult.incomplete() = RefreshTokenIncomplete;
-
-  const factory RefreshTokenResult.error() = RefreshTokenError;
+  const factory RefreshTokenResult.failure(RefreshTokenDomainError error) = RefreshTokenFailure;
 }

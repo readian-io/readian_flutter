@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:readian_domain/entities/auth_result.dart';
 import 'package:readian_domain/entities/auth_token.dart';
 import 'package:readian_domain/entities/user_entity.dart';
-import 'secure_storage.dart';
+import 'package:readian_domain/store/secure_storage.dart';
 
 class ReadianSecureStorage implements SecureStorage {
   final FlutterSecureStorage _storage;

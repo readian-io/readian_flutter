@@ -1,12 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:readian_presentation/presentation.dart';
 import 'package:readian_flutter/l10n/app_localizations.dart';
+import 'package:readian_presentation/presentation.dart';
 
-import '../tutorial_view_model.dart';
 import '../state/tutorial_state.dart';
+import '../tutorial_view_model.dart';
 
 /// Desktop-specific layout for tutorial screen
 /// Features: Side-by-side layout with image on left, content on right
@@ -112,9 +113,14 @@ class _LeftPanel extends ConsumerWidget {
           // Top header
           Row(
             children: [
-              SvgPicture.asset('assets/images/image_readian.svg', height: 32),
+              Flexible(
+                child: SvgPicture.asset(
+                  'assets/images/image_readian.svg',
+                  height: 32,
+                ),
+              ),
               const Spacer(),
-              _LoginButton(l10n: l10n),
+              Flexible(child: _LoginButton(l10n: l10n)),
             ],
           ),
 

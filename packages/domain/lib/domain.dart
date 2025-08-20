@@ -18,11 +18,15 @@ export 'entities/result/registration_result.dart';
 export 'entities/result/refresh_token_result.dart';
 export 'entities/result/anon_reg_result.dart';
 
-// Auth repository
-export 'repositories/readian_auth_repository.dart';
+
+// Auth repository interface
+export 'repositories/auth_repository.dart';
 
 // Auth store
 export 'store/authentication_store.dart';
+
+// Errors
+export 'errors/auth_domain_error.dart';
 
 // Auth use cases 
 export 'usecases/auth/login_usecase.dart';

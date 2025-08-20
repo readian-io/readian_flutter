@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 Future<T> withRestErrorHandling<T>({
   required Future<T> Function() block,
   required T Function(Exception exception) errorBlock,

@@ -6,7 +6,7 @@ class TokenValidator {
 
   bool isTokenExpired(String token) {
     try {
-      final jwt = JWT.verify(token, SecretKey(''), checkExpiresIn: false);
+      final jwt = JWT.decode(token);
       final exp = jwt.payload['exp'] as int?;
       if (exp == null) return true;
 

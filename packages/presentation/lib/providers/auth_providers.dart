@@ -1,19 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:readian_data/datasources/onboarding_data_source.dart';
-import 'package:readian_data/repositories/readian_auth_repository.dart';
-import 'package:readian_data/storage/secure_storage.dart';
-import 'package:readian_data/storage/readian_secure_storage.dart';
+import 'package:readian_data/data.dart';
 import 'package:readian_data/store/readian_authentication_store.dart';
-import 'package:readian_domain/entities/authentication_state.dart';
-import 'package:readian_domain/repositories/readian_auth_repository.dart';
-import 'package:readian_domain/store/authentication_store.dart';
-import 'package:readian_domain/usecases/auth/login_usecase.dart';
-import 'package:readian_domain/usecases/auth/register_usecase.dart';
+import 'package:readian_domain/domain.dart';
 import 'app_providers.dart';
 
-final secureStorageProvider = Provider<SecureStorage>((ref) {
+final secureStorageProvider = Provider((ref) {
   const storage = FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
@@ -28,7 +20,7 @@ final onboardingApiClientProvider = Provider<OnboardingDataSource>((ref) {
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final authApiClient = ref.watch(onboardingApiClientProvider);
   final secureStorage = ref.watch(secureStorageProvider);
-  return ReadianAuthRepository(authApiClient, secureStorage);
+  return ReadianAuthDataRepository(authApiClient, secureStorage);
 });
 
 final authenticationStoreProvider = Provider<AuthenticationStore>((ref) {

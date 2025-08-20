@@ -30,33 +30,9 @@ class DioClient {
   }
 
   /// Creates an authenticated Dio client with token interceptor
-  /// Use for protected endpoints that require authentication
+  /// Use for protected endpoints that require authentication  
+  /// Note: TokenInterceptor should be added via dependency injection in providers
   static Dio createAuthenticatedDio() {
-    final dio = createPublicDio();
-    
-    // Add auth interceptor only for authenticated client
-    dio.interceptors.add(AuthInterceptor());
-
-    return dio;
-  }
-}
-
-class AuthInterceptor extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: Add auth token to requests
-    // final token = await AuthService.getToken();
-    // if (token != null) {
-    //   options.headers['Authorization'] = 'Bearer $token';
-    // }
-    handler.next(options);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == 401) {
-      // TODO: Handle token refresh or logout
-    }
-    handler.next(err);
+    return createPublicDio();
   }
 }

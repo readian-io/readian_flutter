@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../errors/auth_domain_error.dart';
 
 part 'registration_result.freezed.dart';
 
@@ -6,9 +7,7 @@ part 'registration_result.freezed.dart';
 sealed class RegistrationResult with _$RegistrationResult {
   const factory RegistrationResult.success() = RegistrationSuccess;
 
-  const factory RegistrationResult.problem({
-    required List<String> problems,
-  }) = RegistrationProblem;
+  const factory RegistrationResult.failure(RegistrationDomainError error) = RegistrationFailure;
 
-  const factory RegistrationResult.error() = RegistrationError;
+  const factory RegistrationResult.validationFailure(List<ValidationDomainError> errors) = RegistrationValidationFailure;
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readian_flutter/l10n/app_localizations.dart';
 import 'package:readian_presentation/presentation.dart';
 
+import '../login_view_model.dart';
 import '../state/login_form_provider.dart';
 
 class LoginDesktopLayout extends ConsumerWidget {
@@ -10,6 +11,19 @@ class LoginDesktopLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final navigation = ref.navigation(context);
+    
+    // Listen to authentication state changes
+    ref.listen(authStateProvider, (previous, next) {
+      next.whenData((authState) {
+        authState.whenOrNull(
+          authenticated: (accessToken, refreshToken) {
+            navigation.navigateToHome();
+          },
+        );
+      });
+    });
+    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
@@ -164,6 +178,10 @@ class LoginDesktopLayout extends ConsumerWidget {
     AppLocalizations l10n,
     bool isFormValid,
   ) {
+    final loginState = ref.watch(loginViewModelProvider);
+    final username = ref.watch(usernameProvider);
+    final password = ref.watch(passwordProvider);
+    
     return Column(
       children: [
         ReadianButton(
@@ -177,13 +195,28 @@ class LoginDesktopLayout extends ConsumerWidget {
 
         ReadianButton(
           text: l10n.login,
-          onPressed: isFormValid
-              ? () => ref.navigation(context).navigateToHome()
+          onPressed: isFormValid && !loginState.isLoading
+              ? () {
+                  ref.read(loginViewModelProvider.notifier).setContext(context);
+                  ref.read(loginViewModelProvider.notifier).login(username, password);
+                }
               : null,
           style: ReadianButtonStyle.primary,
-          enabled: isFormValid,
+          enabled: isFormValid && !loginState.isLoading,
           padding: EdgeInsets.zero,
+          isLoading: loginState.isLoading,
         ),
+        
+        if (loginState.error != null) ...[
+          const SizedBox(height: 16),
+          Text(
+            loginState.error!,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ],
     );
   }

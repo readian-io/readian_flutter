@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../auth_token.dart';
 import '../user_entity.dart';
+import '../../errors/auth_domain_error.dart';
 
 part 'login_result.freezed.dart';
 
@@ -11,7 +12,5 @@ sealed class LoginResult with _$LoginResult {
     required UserEntity user,
   }) = LoginSuccess;
 
-  const factory LoginResult.wrongCredentials() = LoginWrongCredentials;
-
-  const factory LoginResult.error() = LoginError;
+  const factory LoginResult.failure(LoginDomainError error) = LoginFailure;
 }

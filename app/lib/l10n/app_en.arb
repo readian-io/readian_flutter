@@ -86,5 +86,104 @@
   "forgotPassword": "Forgot password",
   "@forgotPassword": {
     "description": "Button text for forgot password action"
+  },
+  "errorInvalidCredentials": "Invalid email or password",
+  "@errorInvalidCredentials": {
+    "description": "Error message for invalid login credentials"
+  },
+  "errorNetworkConnection": "Network error. Please check your connection",
+  "@errorNetworkConnection": {
+    "description": "Error message for network connectivity issues"
+  },
+  "errorServerUnavailable": "Server error. Please try again later",
+  "@errorServerUnavailable": {
+    "description": "Error message for server-side errors"
+  },
+  "errorGenericLogin": "Login failed. Please try again",
+  "@errorGenericLogin": {
+    "description": "Generic error message for login failures"
+  },
+  "errorUsernameEmailRequired": "Username/email and password are required",
+  "@errorUsernameEmailRequired": {
+    "description": "Validation error for missing login credentials"
+  },
+  "errorInvalidEmailUsername": "Please enter a valid email or username",
+  "@errorInvalidEmailUsername": {
+    "description": "Validation error for invalid email or username format"
+  },
+  "errorInvalidRequestFormat": "Invalid request format",
+  "@errorInvalidRequestFormat": {
+    "description": "Error message for malformed requests"
+  },
+  "errorPasswordEmpty": "Password cannot be empty",
+  "@errorPasswordEmpty": {
+    "description": "Validation error for empty password"
+  },
+  "errorPasswordTooShort": "Password must be at least {minLength} characters",
+  "@errorPasswordTooShort": {
+    "description": "Validation error for password too short",
+    "placeholders": {
+      "minLength": {
+        "type": "int"
+      }
+    }
+  },
+  "errorPasswordTooLong": "Password must be less than {maxLength} characters",
+  "@errorPasswordTooLong": {
+    "description": "Validation error for password too long",
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "errorPasswordMissingLetter": "Password must contain at least one letter",
+  "@errorPasswordMissingLetter": {
+    "description": "Validation error for password without letters"
+  },
+  "errorPasswordMissingNumber": "Password must contain at least one number",
+  "@errorPasswordMissingNumber": {
+    "description": "Validation error for password without numbers"
+  },
+  "errorEmailEmpty": "Email cannot be empty",
+  "@errorEmailEmpty": {
+    "description": "Validation error for empty email"
+  },
+  "errorEmailInvalid": "Please enter a valid email address",
+  "@errorEmailInvalid": {
+    "description": "Validation error for invalid email format"
+  },
+  "errorUsernameEmpty": "Username cannot be empty",
+  "@errorUsernameEmpty": {
+    "description": "Validation error for empty username"
+  },
+  "errorUsernameInvalid": "Username must be 3-30 characters and contain only letters, numbers, underscores, or hyphens",
+  "@errorUsernameInvalid": {
+    "description": "Validation error for invalid username format"
+  },
+  "errorPasswordsNoMatch": "Passwords do not match",
+  "@errorPasswordsNoMatch": {
+    "description": "Validation error when passwords don't match during registration"
+  },
+  "errorRegistrationFailed": "Registration failed: {message}",
+  "@errorRegistrationFailed": {
+    "description": "Generic registration error with server message",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "errorUsernameEmailExists": "Username or email already exists",
+  "@errorUsernameEmailExists": {
+    "description": "Registration error for duplicate username or email"
+  },
+  "errorRegistrationDataInvalid": "Invalid registration data",
+  "@errorRegistrationDataInvalid": {
+    "description": "Registration error for invalid data format"
+  },
+  "errorRegistrationServerError": "Server error occurred",
+  "@errorRegistrationServerError": {
+    "description": "Registration error for server-side issues"
   }
 }
